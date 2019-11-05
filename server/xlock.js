@@ -40,7 +40,7 @@ var myDoughnutChart = new Chart(ctxx, {
 
 // getting data from server
 
-var test = async function access(path='', data={})
+var test = function access(path='', data={})
 {
     if (path.length > 0)
     {
