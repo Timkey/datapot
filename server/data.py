@@ -39,7 +39,7 @@ class DataPot:
         self.distribution = dist
 
     def questions(self):
-        return self.distribution.keys()
+        return list(self.distribution.keys())
 
     def groups(self, question=None):
         if question is not None and question in self.distribution.keys():

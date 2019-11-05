@@ -10,11 +10,11 @@ flex = DataPot()
 @app.route("/")
 def hello():
     message = "Hello, World"
-    return render_template('index.html', message=message)
+    return render_template('server/index.html', message=message)
 
 @app.route("/js/<ext>")
 def js(ext):
-    n = "%s.js" %(ext)
+    n = "server/%s.js" %(ext)
     print (n, 'found the file')
     return render_template(n)
 
