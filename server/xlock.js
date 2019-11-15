@@ -40,7 +40,7 @@ var myDoughnutChart = new Chart(ctxx, {
 
 // getting data from server
 
-var test = function access(path='', data={})
+var test = function(path='', data={})
 {
     if (path.length > 0)
     {
@@ -48,25 +48,28 @@ var test = function access(path='', data={})
     }
 
     this.data = JSON.stringify(data);
+}
+
+test.prototype.do = async function()
+{
 
     var j = await $.ajax({
         type: "POST",
         url: this.url,
         data: this.data,
         contentType: 'application/json'
-      });
+    });
 
-      this.data = await j['data'];
-      console.log('working');
-    
+    this.j = await j['data'];
+    console.log('working');
+    await this.log();
 
-
-};
+}
 
 test.prototype.log = function()
 {
     console.log('testing promise on second function');
-    console.log(j.data);
+    console.log(this.j);
 }
 
 var url = 'groups'
@@ -74,4 +77,5 @@ var data = {};
 data['question'] = "Q10. How long does it take before reloading your mobile data plan after depletion?";
 
 f = new test(url, data);
-f.log();
+f.do();
+//f.log();
