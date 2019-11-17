@@ -53,6 +53,9 @@ var grapher = function()
   this.groups = {};
   this.questions = [];
   this.payLoad = {};
+  this.dist = {};
+  this.targetQuestions = [];
+  this.html = "";
 }
 
 grapher.prototype.scoper = async function(id='', choice=-1)
@@ -102,10 +105,73 @@ grapher.prototype.access = async function()
 
   let ac = new access(path='filter', data = {'filter' : this.payLoad});
   await ac.post();
-  console.log(ac.data);
+  this.dist = await ac.data;
+  console.log(this.dist);
 }
 
-//grapher.prototype.
+grapher.prototype.processFilter = async function(obKeys=[], id=0)
+{
+  let items = Object.keys(this.dist[id]);
+  if(items.length > 1)
+  {
+    this.targetQuestions.push(obKeys[id]);
+
+    /*
+    * prep docking area
+    */
+
+
+  }
+
+  id--;
+  if(id > -1)
+  {
+    this.processFilter(obKeys, id);
+  }
+}
+
+grapher.prototype.pieplot = async function(groups=[], groupData=[], dock="")
+{
+  var data = [{
+    type: "pie",
+    values: groupData,
+    labels: groups,
+    //textinfo: "label+percent",
+    textposition: "outside",
+    automargin: true,
+    hole: .6
+  }]
+
+  var layout = {
+    height: 300,
+    width: 370,
+    margin: {"t": 0, "b": 0, "l": 0, "r": 0},
+    showlegend: true
+    }
+
+  Plotly.newPlot(dock, data, layout);
+}
+
+grapher.prototype.barplot = async function(groups=[], groupData=[], dock="")
+{
+  var dataBar = [{
+    type: 'bar',
+    x: groupData,
+    y: groups,
+    orientation: 'h'
+  }];
+
+  var layout = {
+    height: 300,
+    width: 320,
+    margin: {"t": 0, "b": 15, "l": 100, "r": 0},
+    showlegend: false
+  }
+
+  Plotly.newPlot(dock, dataBar, layout);
+}
+
+
 
 /*
 * generating select tags corresponding to questions
@@ -243,3 +309,6 @@ select.prototype.render = async function()
 
 let test = new select(dock='dock-select');
 test.compose();
+
+graph.pieplot(['carbohydrates', 'proteins', 'vitamins'], [12, 45, 65], 'test');
+graph.barplot(['carbohydrates', 'proteins', 'vitamins'], [12, 45, 65], 'test1');

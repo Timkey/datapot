@@ -4,6 +4,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css">
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     </head>
     <body class="container">
         <div class='row'>
@@ -12,64 +13,21 @@
 
         <div class="row">
             <div class="col-md-3 col-sm-12" id="dock-select">
-                <div class="select-outline">
-                    <!--<select class="mdb-select md-form md-outline dropdown-primary"> -->
-                    <label>Question</label>
-                    <select class="browser-default custom-select">
-                        <option value="">OFF</option>
-                        <option value="1">Category 1</option>
-                        <option value="2">Category 1</option>
-                        <option value="3">Category 1</option>
-                    </select>
-                </div>
 
+                <h1>Loading ...</h1>
 
-                <div class="select-outline">
-                    <!--<select class="mdb-select md-form md-outline dropdown-primary"> -->
-                    <label>Question</label>
-                    <select class="browser-default custom-select">
-                        <option value="">OFF</option>
-                        <option value="1">Category 1</option>
-                        <option value="2">Category 1</option>
-                        <option value="3">Category 1</option>
-                    </select>
-                </div>
-
-                
-                <div class="select-outline">
-                    <!--<select class="mdb-select md-form md-outline dropdown-primary"> -->
-                    <label>Question</label>
-                    <select class="browser-default custom-select">
-                        <option value="">OFF</option>
-                        <option value="1">Category 1</option>
-                        <option value="2">Category 1</option>
-                        <option value="3">Category 1</option>
-                    </select>
-                </div>
-
-                
-                <div class="select-outline">
-                    <!--<select class="mdb-select md-form md-outline dropdown-primary"> -->
-                    <label>Question</label>
-                    <select class="browser-default custom-select">
-                        <option value="">OFF</option>
-                        <option value="1">Category 1</option>
-                        <option value="2">Category 2</option>
-                        <option value="3">Category 3</option>
-                    </select>
-                </div>
             </div>
 
-            <div class="col-md-9 col-sm-12">
+            <div class="col-md-9 col-sm-12" id='graphs'>
 
                 <div class="row">
 
                     <div class="col-md-6 col-sm-12">
-                        plot One
+                        <div id='test'></div>
                     </div>
 
                     <div class="col-md-6 col-sm-12">
-                        plot Two
+                        <div id="test1"></div>
                     </div>
 
                 </div>
