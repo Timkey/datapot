@@ -54,12 +54,19 @@ var grapher = function()
   this.questions = [];
   this.payLoad = {};
   this.dist = {};
-  this.targetQuestions = [];
+  this.targetQuestions = {};
   this.html = "";
 }
 
 grapher.prototype.scoper = async function(id='', choice=-1)
 {
+  /*
+  * refresh store
+  */
+
+  this.targetQuestions = {};
+  this.html = "";
+
   if (choice > -1)
   {
     let val = document.getElementById(id).value;
@@ -107,26 +114,90 @@ grapher.prototype.access = async function()
   await ac.post();
   this.dist = await ac.data;
   console.log(this.dist);
+
+  let keys = Object.keys(this.dist);
+  await this.processFilter(obKeys=keys);
+  await this.render(obKeys=Object.keys(this.targetQuestions));
 }
 
 grapher.prototype.processFilter = async function(obKeys=[], id=0)
 {
-  let items = Object.keys(this.dist[id]);
+  //console.log(obKeys);
+  let question = obKeys[id];
+  let items = Object.keys(this.dist[question]);
   if(items.length > 1)
   {
-    this.targetQuestions.push(obKeys[id]);
+    
+    this.targetQuestions[id] = question;
 
     /*
-    * prep docking area
+    * prep docking area for graphs
     */
 
+    let template = '';
 
+    template += '<hr>';
+    template += '<h2>'+question+'</h2>';
+    template += '<div class="row">';
+    template += '<div class="col-md-6 col-sm-12">';
+    template += '<div class="card card-default ">';
+    template += '<div class="card-body" id="pie'+id+'"></div>';
+    template += '<div class="card-header">Pie Chart</div>';
+    template += '</div>';
+    template += '</div>';
+    template += '<div class="col-md-6 col-sm-12">';
+    template += '<div class="card card-default">';
+    template += '<div class="card-body" id="bar'+id+'"></div>';
+    template += '<div class="card-header">Bar Chart</div>';
+    template += '</div>';
+    template += '</div>';
+    template += '</div>';
+
+    this.html += template;
   }
 
-  id--;
-  if(id > -1)
+  id++;
+  if(id < obKeys.length)
   {
-    this.processFilter(obKeys, id);
+    await this.processFilter(obKeys, id);
+  }
+  else
+  {
+    /*
+    * render works
+    */
+
+    $('#graphs').html(this.html);
+  }
+}
+
+grapher.prototype.render = async function(obKeys=[], ad=0)
+{
+  //console.log(obKeys);
+  let id = obKeys[ad];
+  let question = this.targetQuestions[id];
+  let tmp = this.dist[question];
+  let groups = Object.keys(tmp);
+  let groupData = [];
+
+
+  for (let x=0; x < groups.length; x++)
+  {
+    let key = groups[x];
+    let val = tmp[key];
+
+    groupData.push(val);
+  }
+
+  await this.pieplot(groups, groupData, 'pie'+id);
+  await this.barplot(groups, groupData, 'bar'+id);
+
+  //terminal logic
+  ad++;
+
+  if(ad < obKeys.length)
+  {
+    await this.render(obKeys, ad);
   }
 }
 
@@ -312,3 +383,6 @@ test.compose();
 
 graph.pieplot(['carbohydrates', 'proteins', 'vitamins'], [12, 45, 65], 'test');
 graph.barplot(['carbohydrates', 'proteins', 'vitamins'], [12, 45, 65], 'test1');
+
+graph.pieplot(['carbohydrates', 'proteins', 'vitamins', 'minerals'], [12, 45, 65, 25], 'test2');
+graph.barplot(['carbohydrates', 'proteins', 'vitamins', 'minerals'], [12, 45, 65, 25], 'test3');
