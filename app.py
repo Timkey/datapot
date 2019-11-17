@@ -9,7 +9,7 @@ flex = DataPot()
 # a route where we will display a welcome message via an HTML template
 @app.route("/")
 def hello():
-    message = "DataPot Survey"
+    message = "DataPot Survey Analytics"
     return render_template('server/index.html', message=message)
 
 @app.route("/js/<ext>")
