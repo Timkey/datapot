@@ -14,7 +14,7 @@ def hello():
 
 @app.route("/js/<ext>")
 def js(ext):
-    n = "server/%s.js" %(ext)
+    n = "server/%s" %(ext)
     print (n, 'found the file')
     return render_template(n)
 
