@@ -271,6 +271,7 @@ select.prototype.compose = async function()
   await this.questions();
   await this.render();
   graph.groups = this.dropOptions;
+  graph.scoper("flog_1", -2);
 }
 
 select.prototype.questions = async function()
